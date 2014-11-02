@@ -4,6 +4,7 @@ var gulp = require('gulp'),
 	uglify = require('gulp-uglify'),
 	concat = require('gulp-concat'),
 	minifyCss = require('gulp-minify-css'),
+	imagemin   = require('gulp-imagemin'),
 	concatCss = require('gulp-concat-css');
 
 gulp.task('connect', function() {
@@ -18,6 +19,12 @@ gulp.task('connect', function() {
 		.pipe(minHtml())
 		.pipe(gulp.dest('.build/'))
 });*/
+
+gulp.task('imagemin', function() {
+	return gulp.src('app/src/img/**/*')
+		.pipe(imagemin({ optimizationLevel: 3, progressive: true, interlaced: true }))
+		.pipe(gulp.dest('.build/img'));
+});
 
 gulp.task('scripts', function(){
 	gulp.src('app/src/js/*.js') 
@@ -48,4 +55,4 @@ gulp.task('watch', function () {
   gulp.watch('app/src/css/*.css', ['css']);
 });
 
-gulp.task('default', ['connect', 'watch', 'scripts', 'css', 'html']);
+gulp.task('default', ['connect', 'watch', 'imagemin', 'scripts', 'css', 'html']);
